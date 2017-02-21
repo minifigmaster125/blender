@@ -5646,7 +5646,7 @@ static Image *proj_paint_image_create(wmOperator *op, Main *bmain)
 {
 	Image *ima;
 	float color[4] = {0.0f, 0.0f, 0.0f, 1.0f};
-	char imagename[MAX_ID_NAME - 2] = "Material Diffuse Color";
+	char imagename[MAX_ID_NAME - 2] = "Material Diffuse COCOC";
 	int width = 1024;
 	int height = 1024;
 	bool use_float = false;
@@ -5711,21 +5711,14 @@ static bool proj_paint_add_slot(bContext *C, wmOperator *op)
 			/* successful creation of mtex layer, now create set */
 			if (mtex) {
 				int type = MAP_COL;
-				int type_id = 0;
+        char imagename[MAX_ID_NAME - 2] = "Diffuse Color";
 
 				if (op) {
-					int i;
 					type = RNA_enum_get(op->ptr, "type");
-
-					for (i = 0; i < ARRAY_SIZE(layer_type_items); i++) {
-						if (layer_type_items[i].value == type) {
-							type_id = i;
-							break;
-						}
-					}
+          RNA_string_get(op->ptr, "name", imagename);
 				}
 
-				mtex->tex = BKE_texture_add(bmain, DATA_(layer_type_items[type_id].name));
+				mtex->tex = BKE_texture_add(bmain, DATA_(imagename));
 				mtex->mapto = type;
 
 				if (mtex->tex) {
